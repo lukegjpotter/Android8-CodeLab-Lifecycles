@@ -35,8 +35,8 @@ public class BoundLocationManager {
     @SuppressWarnings("MissingPermission")
     static class BoundLocationListener implements LifecycleObserver {
         private final Context mContext;
-        private LocationManager mLocationManager;
         private final LocationListener mListener;
+        private LocationManager mLocationManager;
 
         public BoundLocationListener(LifecycleOwner lifecycleOwner,
                                      LocationListener listener, Context context) {
@@ -50,14 +50,12 @@ public class BoundLocationManager {
             // Note: Use the Fused Location Provider from Google Play Services instead.
             // https://developers.google.com/android/reference/com/google/android/gms/location/FusedLocationProviderApi
 
-            mLocationManager =
-                    (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
+            mLocationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
             mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, mListener);
             Log.d("BoundLocationMgr", "Listener added");
 
             // Force an update with the last location, if available.
-            Location lastLocation = mLocationManager.getLastKnownLocation(
-                    LocationManager.GPS_PROVIDER);
+            Location lastLocation = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
             if (lastLocation != null) {
                 mListener.onLocationChanged(lastLocation);
             }
